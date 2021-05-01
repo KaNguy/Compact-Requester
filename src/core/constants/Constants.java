@@ -7,4 +7,6 @@ public class Constants {
             DELETE = "DELETE",
             PUT = "PUT",
             PATCH = "PATCH";
+
+    public static int STANDARD_TIMEOUT = 5000;
 }
