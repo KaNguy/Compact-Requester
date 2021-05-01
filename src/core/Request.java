@@ -17,8 +17,9 @@ import java.util.zip.GZIPInputStream;
 import core.constants.Constants;
 
 public class Request {
-    private String method;
-    private String url;
+    public String method;
+    public String url;
+    public String output;
 
     public Request(String url) {
         this.url = url;
@@ -31,14 +32,27 @@ public class Request {
 
             connection.setRequestMethod(this.method);
 
-            
+            connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
+            connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
+
+            this.output = read(connection);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public Request(String url, String method) {
+        this.url = url;
+        this.method = method.toUpperCase();
 
+        HttpURLConnection connection;
+
+        if (this.method.equals(Constants.POST) || this.method.equals(Constants.DELETE) || this.method.equals(Constants.PUT) || this.method.equals(Constants.PATCH)) {
+
+        } else {
+            Request readOnly = new Request(url);
+            this.output = readOnly.output;
+        }
     }
 
     public static String read(HttpURLConnection connection) {
@@ -66,7 +80,7 @@ public class Request {
         }
 
         // Empty char value
-        int ch = 0;
+        int ch;
 
         // String Builder to add to the final string
         StringBuilder stringBuilder = new StringBuilder();
@@ -76,14 +90,14 @@ public class Request {
             try {
                 assert reader != null;
                 ch = reader.read();
+                if (ch == -1) {
+                    return stringBuilder.toString();
+                }
+
+                stringBuilder.append((char) ch);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (ch == -1) {
-                return stringBuilder.toString();
-            }
-
-            stringBuilder.append((char) ch);
         }
     }
 }
