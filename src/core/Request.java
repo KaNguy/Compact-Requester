@@ -15,6 +15,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 // Utilities
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 // Constants
@@ -30,6 +32,7 @@ public class Request {
     public String method;
     public String url;
     public String output;
+    public HttpURLConnection connection;
 
     public Request(String url) {
         this.url = url;
@@ -39,6 +42,7 @@ public class Request {
 
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
+            this.connection = connection;
 
             connection.setRequestMethod(this.method);
 
@@ -51,6 +55,21 @@ public class Request {
         }
     }
 
+    public Request(String url, String method, String data, String[][] headers) {
+        this.url = url;
+        this.method = method.toUpperCase();
+
+        if (this.method.equals(Constants.POST) || this.method.equals(Constants.DELETE) || this.method.equals(Constants.PUT) || this.method.equals(Constants.PATCH)) {
+            Request writable = new Request(url, method, data);
+            if (headers != null) this.setHeaders(writable.connection, headers);
+            this.output = writable.output;
+        } else {
+            Request readOnly = new Request(url);
+            if (headers != null) this.setHeaders(readOnly.connection, headers);
+            this.output = readOnly.output;
+        }
+     }
+
     public Request(String url, String method, String data) {
         this.url = url;
         this.method = method.toUpperCase();
@@ -62,6 +81,7 @@ public class Request {
         if (this.method.equals(Constants.POST) || this.method.equals(Constants.DELETE) || this.method.equals(Constants.PUT) || this.method.equals(Constants.PATCH)) {
             try {
                 connection = (HttpURLConnection) new URL(url).openConnection();
+                this.connection = connection;
 
                 connection.setRequestMethod(this.method);
 
@@ -136,5 +156,14 @@ public class Request {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setHeaders(HttpURLConnection connection, String[][] headers) {
+        final Map<String, String> mapHeaders = new HashMap<>(headers.length);
+        for (String[] map : headers) {
+            mapHeaders.put(map[0], map[1]);
+        }
+
+        mapHeaders.forEach(connection::setRequestProperty);
     }
 }
