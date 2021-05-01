@@ -22,8 +22,10 @@ import core.constants.Constants;
 
 public class Request {
     public static void main(String[] args) {
-        Request request = new Request("https://docs.scala-lang.org/", "GET", "{}");
-        System.out.println(request.output);
+        Request request1 = new Request("https://docs.scala-lang.org/", "GET", null);
+        Request request2 = new Request("https://reqres.in/api/users", "POST", "{\"name\": \"Li Xi\", \"job\": \"Java POST\"}");
+        System.out.println(request1.output);
+        System.out.println(request2.output);
     }
     public String method;
     public String url;
