@@ -44,6 +44,7 @@ public class Request {
     public String url;
     public String output;
     public HttpURLConnection connection;
+    public String[][] headers;
 
     public Request(String url) {
         this.url = url;
@@ -56,6 +57,8 @@ public class Request {
             this.connection = connection;
 
             connection.setRequestMethod(this.method);
+
+            if (this.headers != null) this.setHeaders(connection, this.headers);
 
             connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
             connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
@@ -72,11 +75,11 @@ public class Request {
 
         if (this.method.equals(Constants.POST) || this.method.equals(Constants.DELETE) || this.method.equals(Constants.PUT) || this.method.equals(Constants.PATCH)) {
             Request writable = new Request(url, method, data);
-            if (headers != null) this.setHeaders(writable.connection, headers);
+            if (headers != null) writable.headers = headers;
             this.output = writable.output;
         } else {
             Request readOnly = new Request(url);
-            if (headers != null) this.setHeaders(readOnly.connection, headers);
+            if (headers != null) readOnly.headers = headers;
             this.output = readOnly.output;
         }
      }
@@ -95,6 +98,8 @@ public class Request {
                 this.connection = connection;
 
                 connection.setRequestMethod(this.method);
+
+                if (this.headers != null) this.setHeaders(connection, this.headers);
 
                 connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
                 connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
