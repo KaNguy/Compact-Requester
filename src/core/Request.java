@@ -1,14 +1,18 @@
 package core;
 
 // Data streaming
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Reader;
+import java.io.IOException;
 
 // Networking and HTTP/HTTPS
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+// Charsets
+import java.nio.charset.StandardCharsets;
 
 // Utilities
 import java.util.zip.GZIPInputStream;
@@ -17,6 +21,10 @@ import java.util.zip.GZIPInputStream;
 import core.constants.Constants;
 
 public class Request {
+    public static void main(String[] args) {
+        Request request = new Request("https://docs.scala-lang.org/", "GET", "{}");
+        System.out.println(request.output);
+    }
     public String method;
     public String url;
     public String output;
@@ -41,14 +49,41 @@ public class Request {
         }
     }
 
-    public Request(String url, String method) {
+    public Request(String url, String method, String data) {
         this.url = url;
         this.method = method.toUpperCase();
+
+        if (data == null) data = "{}";
 
         HttpURLConnection connection;
 
         if (this.method.equals(Constants.POST) || this.method.equals(Constants.DELETE) || this.method.equals(Constants.PUT) || this.method.equals(Constants.PATCH)) {
+            try {
+                connection = (HttpURLConnection) new URL(url).openConnection();
 
+                connection.setRequestMethod(this.method);
+
+                connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
+                connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
+
+                connection.setDoOutput(true);
+
+                try {
+                    byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+                    int length = bytes.length;
+                    connection.setFixedLengthStreamingMode(length);
+
+                    OutputStream outputStream = connection.getOutputStream();
+                    outputStream.write(bytes, 0, length);
+                    outputStream.flush();
+                    outputStream.close();
+                } finally {
+                    this.output = read(connection);
+                    connection.getInputStream().close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             Request readOnly = new Request(url);
             this.output = readOnly.output;
