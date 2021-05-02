@@ -26,10 +26,10 @@ import core.constants.Constants;
 public class Request {
     public static void main(String[] args) {
         Request request1 = new Request("https://docs.scala-lang.org/", "GET", null);
-        System.out.println(request1.output);
+        //System.out.println(request1.output);
 
         Request request2 = new Request("https://reqres.in/api/users", "POST", "{\"name\": \"Li Xi\", \"job\": \"Java POST\"}");
-        System.out.println(request2.output);
+        //System.out.println(request2.output);
 
         Request request3 = new Request(
                 "https://api.github.com/",
@@ -71,12 +71,68 @@ public class Request {
         this.url = url;
         this.method = method.toUpperCase();
 
+        if (data == null) data = "{}";
+
+        HttpURLConnection connection;
+
         if (this.method.equals(Constants.POST) || this.method.equals(Constants.DELETE) || this.method.equals(Constants.PUT) || this.method.equals(Constants.PATCH)) {
-            Request writable = new Request(url, method, data);
-            this.output = writable.output;
+            if (headers == null) {
+                Request writable = new Request(url, method, data);
+                this.output = writable.output;
+            } else {
+                try {
+                    connection = (HttpURLConnection) new URL(url).openConnection();
+                    this.connection = connection;
+
+                    connection.setRequestMethod(this.method);
+
+                    connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
+                    connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
+
+                    connection.setDoOutput(true);
+
+                    // Add the headers
+                    this.setHeaders(connection, headers);
+
+                    try {
+                        byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+                        int length = bytes.length;
+                        connection.setFixedLengthStreamingMode(length);
+
+                        OutputStream outputStream = connection.getOutputStream();
+                        outputStream.write(bytes, 0, length);
+                        outputStream.flush();
+                        outputStream.close();
+                    } finally {
+                        this.output = read(connection);
+                        connection.getInputStream().close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         } else {
-            Request readOnly = new Request(url);
-            this.output = readOnly.output;
+            if (headers == null) {
+                Request readOnly = new Request(url);
+                this.output = readOnly.output;
+            } else {
+                try {
+                    connection = (HttpURLConnection) new URL(url).openConnection();
+                    this.connection = connection;
+
+                    connection.setRequestMethod(this.method);
+
+                    connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
+                    connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
+
+                    // Adds headers
+                    this.setHeaders(connection, headers);
+
+                    this.output = read(connection);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
      }
 
