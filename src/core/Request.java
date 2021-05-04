@@ -9,9 +9,11 @@ import java.io.IOException;
 
 // Networking and HTTP/HTTPS
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 
 // Charsets
+import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 
 // Utilities
@@ -207,12 +209,31 @@ public class Request {
         }
     }
 
-    public void setHeaders(HttpURLConnection connection, String[][] headers) {
+    public static void setHeaders(HttpURLConnection connection, String[][] headers) {
         final Map<String, String> mapHeaders = new HashMap<>(headers.length);
         for (String[] map : headers) {
             mapHeaders.put(map[0], map[1]);
         }
 
         mapHeaders.forEach(connection::setRequestProperty);
+    }
+
+    public static String get(String url, String[][] headers) {
+        HttpURLConnection connection;
+
+        try {
+            connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod(Constants.GET);
+
+            connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
+            connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
+
+            setHeaders(connection, headers);
+
+            return read(connection);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return e.toString();
+        }
     }
 }
