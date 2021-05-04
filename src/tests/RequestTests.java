@@ -19,5 +19,11 @@ public class RequestTests {
                         {"User-Agent", "*"}
                 });
         System.out.println(request3.output);
+
+        String getRequest1 = Request.get("https://api.github.com/", null);
+        System.out.println(getRequest1);
+
+        String getRequest2 = Request.get("https://api.github.com/", new String[][] { {"User-Agent", "*"}, {"Accept", "*/*"} });
+        System.out.println(getRequest2);
     }
 }
