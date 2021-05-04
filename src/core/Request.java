@@ -228,7 +228,7 @@ public class Request {
             connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
             connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
 
-            setHeaders(connection, headers);
+            if (headers != null) setHeaders(connection, headers);
 
             return read(connection);
         } catch (IOException e) {
