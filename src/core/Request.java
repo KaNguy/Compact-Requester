@@ -77,7 +77,7 @@ public class Request {
                     connection.setDoOutput(true);
 
                     // Add the headers
-                    this.setHeaders(connection, headers);
+                    setHeaders(connection, headers);
 
                     try {
                         byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
@@ -111,7 +111,7 @@ public class Request {
                     connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
 
                     // Adds headers
-                    this.setHeaders(connection, headers);
+                    setHeaders(connection, headers);
 
                     this.output = read(connection);
                 } catch (IOException e) {
