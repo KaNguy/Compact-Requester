@@ -28,6 +28,10 @@ public class Request {
     public String output;
     public HttpURLConnection connection;
 
+    /**
+     * Default constructor that always makes a GET request
+     * @param url URL to make a GET request
+     */
     public Request(String url) {
         this.url = url;
         this.method = Constants.GET;
@@ -49,6 +53,13 @@ public class Request {
         }
     }
 
+    /**
+     * Parameterized constructor for read-only and writable requests that also accepts headers
+     * @param url URL to request
+     * @param method Request method
+     * @param data Data to write to the request
+     * @param headers Headers for the request
+     */
     public Request(String url, String method, String data, String[][] headers) {
         this.url = url;
         this.method = method.toUpperCase();
@@ -118,6 +129,12 @@ public class Request {
         }
      }
 
+    /**
+     * Parameterized constructor for read-only and writable requests
+     * @param url URL to request
+     * @param method Request method
+     * @param data Data to write to the request
+     */
     public Request(String url, String method, String data) {
         this.url = url;
         this.method = method.toUpperCase();
@@ -160,6 +177,11 @@ public class Request {
         }
     }
 
+    /**
+     * Overloaded constructor for POST requests only
+     * @param url URL to request
+     * @param data Data to post
+     */
     public Request(String url, String data) {
         this.url = url;
         this.method = Constants.POST;
@@ -195,6 +217,11 @@ public class Request {
         }
     }
 
+    /**
+     * Method will read output from HTTP/HTTPS requests
+     * @param connection The connection as an instance of HttpURLConnection
+     * @return Output as a String from reading the connection output
+     */
     public static String read(HttpURLConnection connection) {
         InputStream connectionInputStream = null;
         try {
@@ -241,6 +268,11 @@ public class Request {
         }
     }
 
+    /**
+     * Sets the headers with the given connection
+     * @param connection The HttpURLConnection connection
+     * @param headers And headers in the form of a 2-dimensional array
+     */
     public static void setHeaders(HttpURLConnection connection, String[][] headers) {
         final Map<String, String> mapHeaders = new HashMap<>(headers.length);
         for (String[] map : headers) {
@@ -250,6 +282,12 @@ public class Request {
         mapHeaders.forEach(connection::setRequestProperty);
     }
 
+    /**
+     * Direct get method, only uses the URL and any provided headers
+     * @param url URL for the GET request
+     * @param headers Headers in the form of a 2-dimensional array
+     * @return Output of the request as a String
+     */
     public static String get(String url, String[][] headers) {
         HttpURLConnection connection;
 
