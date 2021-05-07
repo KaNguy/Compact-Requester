@@ -163,6 +163,41 @@ public class Request {
         }
     }
 
+    public Request(String url, String data) {
+        this.url = url;
+        this.method = Constants.POST;
+
+        HttpURLConnection connection;
+
+        try {
+            connection = (HttpURLConnection) new URL(url).openConnection();
+            this.connection = connection;
+
+            connection.setRequestMethod(this.method);
+
+            connection.setConnectTimeout(Constants.STANDARD_TIMEOUT);
+            connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
+
+            connection.setDoOutput(true);
+
+            try {
+                byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+                int length = bytes.length;
+                connection.setFixedLengthStreamingMode(length);
+
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(bytes, 0, length);
+                outputStream.flush();
+                outputStream.close();
+            } finally {
+                this.output = read(connection);
+                connection.getInputStream().close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static String read(HttpURLConnection connection) {
         InputStream connectionInputStream = null;
         try {
