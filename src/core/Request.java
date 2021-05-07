@@ -9,15 +9,12 @@ import java.io.IOException;
 
 // Networking and HTTP/HTTPS
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 
 // Charsets
-import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 
 // Utilities
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
