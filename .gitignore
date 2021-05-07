@@ -20,6 +20,7 @@ bin
 lib/junit-4.7.jar
 caches/
 cache/
+.cache/
 
 # Compiled class files
 *.class
