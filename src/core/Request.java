@@ -173,6 +173,7 @@ public class Request {
                     this.output = read(connection);
                     connection.getInputStream().close();
                 }
+
                 this.headers = connection.getHeaderFields();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -180,6 +181,7 @@ public class Request {
         } else {
             Request readOnly = new Request(url);
             this.output = readOnly.output;
+            this.headers = readOnly.headers;
         }
     }
 
