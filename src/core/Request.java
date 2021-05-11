@@ -218,6 +218,8 @@ public class Request {
                 this.output = read(connection);
                 connection.getInputStream().close();
             }
+
+            this.headers = connection.getHeaderFields();
         } catch (IOException e) {
             e.printStackTrace();
         }
