@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
+import java.util.List;
 
 // Constants
 import core.constants.Constants;
@@ -27,6 +28,7 @@ public class Request {
     public String url;
     public String output;
     public HttpURLConnection connection;
+    public Map<String, List<String>> headers;
 
     /**
      * Default constructor that always makes a GET request
@@ -48,6 +50,7 @@ public class Request {
             connection.setReadTimeout(Constants.STANDARD_TIMEOUT);
 
             this.output = read(connection);
+            this.headers = connection.getHeaderFields();
         } catch (IOException e) {
             e.printStackTrace();
         }
