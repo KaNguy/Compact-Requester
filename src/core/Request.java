@@ -322,7 +322,7 @@ public class Request {
      * @return Mapped response headers
      */
     public Map<String, String> getResponseHeaders() {
-        Map<String, String> mapHeaders = new HashMap<String, String>();
+        Map<String, String> mapHeaders = new HashMap<>();
         this.headers.forEach((key, value) -> value.forEach(k -> mapHeaders.put(k, key)));
         return mapHeaders;
     }
