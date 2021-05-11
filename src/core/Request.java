@@ -316,4 +316,14 @@ public class Request {
             return e.toString();
         }
     }
+
+    /**
+     * Method to get the response headers and return them as a regular Map
+     * @return Mapped response headers
+     */
+    public Map<String, String> getResponseHeaders() {
+        Map<String, String> mapHeaders = new HashMap<String, String>();
+        this.headers.forEach((key, value) -> value.forEach(k -> mapHeaders.put(k, key)));
+        return mapHeaders;
+    }
 }
