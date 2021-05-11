@@ -103,6 +103,7 @@ public class Request {
                         this.output = read(connection);
                         connection.getInputStream().close();
                     }
+                    this.headers = connection.getHeaderFields();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -125,6 +126,7 @@ public class Request {
                     setHeaders(connection, headers);
 
                     this.output = read(connection);
+                    this.headers = connection.getHeaderFields();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -171,6 +173,7 @@ public class Request {
                     this.output = read(connection);
                     connection.getInputStream().close();
                 }
+                this.headers = connection.getHeaderFields();
             } catch (IOException e) {
                 e.printStackTrace();
             }
