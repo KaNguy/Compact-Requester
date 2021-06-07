@@ -22,6 +22,7 @@ public class RequestTests {
 
         Request request4 = new Request("https://reqres.in/api/users", "{\"name\": \"Li Xi\", \"job\": \"Java POST\"}");
         System.out.println(request4.output);
+        System.out.println(request4.getResponseHeaders());
 
         String getRequest1 = Request.get("https://api.github.com/", null);
         System.out.println(getRequest1);
