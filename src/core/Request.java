@@ -1,5 +1,10 @@
 package core;
 
+/*
+ * Created by KaNguy - 04/30/2021
+ * File core.Request.java
+ */
+
 // Data streaming
 import java.io.InputStreamReader;
 import java.io.InputStream;
