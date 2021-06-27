@@ -1,5 +1,10 @@
 package core.constants;
 
+/*
+ * Created by KaNguy - 04/30/2021
+ * File core.Constants.java
+ */
+
 public class Constants {
     public static String
             GET = "GET",
