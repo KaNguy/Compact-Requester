@@ -9,13 +9,16 @@
 A rather compact wrapper that mostly wraps Java's `HttpURLConnection` class. 
 
 ## Intent(s)
-To make requesting in Java greatly simplified (and easier to use).
+To simplify making HTTP requests in Java.
 
 ## Author Notes
 This is more of a follow-up project to the `HTTPS-Request-Scala` Scala project since Scala runs on JVM, and making something similar in Java would be interesting.
 
 ## Contributing
 Read about contributing [here](CONTRIBUTING.md).
+
+## Project Status
+Complete.
 
 ## License
 MIT License
