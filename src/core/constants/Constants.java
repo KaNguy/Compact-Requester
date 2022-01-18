@@ -1,7 +1,7 @@
 package core.constants;
 
 /*
- * Created by KaNguy - 04/30/2021
+ * Created by KiyonoKara - 04/30/2021
  * File core.Constants.java
  */
 

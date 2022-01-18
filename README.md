@@ -1,8 +1,8 @@
 <p>
-    <a href="https://github.com/KaNguy/Compact-Requester/issues"><img src="https://img.shields.io/github/issues/KaNguy/Compact-Requester" alt="Issues"/></a>
-    <a href="https://github.com/KaNguy/Compact-Requester/network/members"><img src="https://img.shields.io/github/forks/KaNguy/Compact-Requester" alt="Forks" /></a>
-    <a href="https://github.com/KaNguy/Compact-Requester/stargazers"><img src="https://img.shields.io/github/stars/KaNguy/Compact-Requester" alt="Stars" /></a>
-    <a href="LICENSE.md"><img src="https://img.shields.io/github/license/KaNguy/Compact-Requester?color=007ace" alt="License" /></a>
+    <a href="https://github.com/KiyonoKara/Compact-Requester/issues"><img src="https://img.shields.io/github/issues/KiyonoKara/Compact-Requester" alt="Issues"/></a>
+    <a href="https://github.com/KiyonoKara/Compact-Requester/network/members"><img src="https://img.shields.io/github/forks/KiyonoKara/Compact-Requester" alt="Forks" /></a>
+    <a href="https://github.com/KiyonoKara/Compact-Requester/stargazers"><img src="https://img.shields.io/github/stars/KiyonoKara/Compact-Requester" alt="Stars" /></a>
+    <a href="LICENSE.md"><img src="https://img.shields.io/github/license/KiyonoKara/Compact-Requester?color=007ace" alt="License" /></a>
 </p>
 
 # Compact Requester
