@@ -21,4 +21,4 @@ Read about contributing [here](CONTRIBUTING.md).
 Complete.
 
 ## License
-MIT License
+[MIT](LICENSE.md)
